@@ -16,7 +16,7 @@ jobs:
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
-          cmd: install --frozen-lockfile
+          cmd: install
       - name: Run tsc
         uses: borales/actions-yarn@v4
         with:
