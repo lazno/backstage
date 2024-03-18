@@ -1,9 +1,12 @@
 name: CI
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-    name: Test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,6 +20,7 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install
+
       - name: Run tsc
         uses: borales/actions-yarn@v4
         with:
@@ -25,3 +29,7 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: build:backend --config ../../app-config.yaml 
+      - name: Build and tag image
+        run: |
+          COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+          docker image build -f packages/backend/Dockerfile -t lazno/backstage:$COMMIT_SHA  --platform linux/amd64
