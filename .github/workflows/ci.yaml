@@ -38,6 +38,13 @@ jobs:
         with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}  
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: packages/backend/Dockerfile
+            push: true
+            tags: lazno/backstage:latest
     #   - name: Build and tag image
     #     run: |
     #       COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
