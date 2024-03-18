@@ -16,4 +16,4 @@ jobs:
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
-          cmd: yarn build:backend --config ../../app-config.yaml # will run `yarn install` command
+          cmd: build:backend --config ../../app-config.yaml # will run `yarn install` command
