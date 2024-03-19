@@ -46,4 +46,4 @@ jobs:
             context: .
             file: packages/backend/Dockerfile
             push: true
-            tags: lazno/backstage:$GITHUB_SHA_SHORT
+            tags: lazno/backstage:${{ env.GITHUB_SHA_SHORT }}
