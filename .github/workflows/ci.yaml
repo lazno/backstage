@@ -34,24 +34,24 @@ jobs:
 
 
       # build    
-      # - name: Set Node.js 18.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18.x
+      - name: Set Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
 
-      # - name: Run install
-      #   uses: borales/actions-yarn@v4
-      #   with:
-      #     cmd: install
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
 
-      # - name: Run tsc
-      #   uses: borales/actions-yarn@v4
-      #   with:
-      #     cmd: tsc
-      # - name: Run build
-      #   uses: borales/actions-yarn@v4
-      #   with:
-      #     cmd: build:backend --config ../../app-config.yaml 
+      - name: Run tsc
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: tsc
+      - name: Run build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build:backend --config ../../app-config.yaml 
 
 
       # do semver
@@ -83,10 +83,10 @@ jobs:
         run: |
           echo "The version increment was: ${{ steps.taggerFinal.outputs.part }}"
       
-      # - name: Build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #       context: .
-      #       file: packages/backend/Dockerfile
-      #       push: true
-      #       tags: lazno/backstage:${{ steps.taggerFinal.outputs.new_tag }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: packages/backend/Dockerfile
+            push: true
+            tags: lazno/backstage:${{ steps.taggerFinal.outputs.new_tag }}
