@@ -32,24 +32,24 @@ jobs:
 
 
       # build    
-      - name: Set Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+      # - name: Set Node.js 18.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18.x
 
-      - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
+      # - name: Run install
+      #   uses: borales/actions-yarn@v4
+      #   with:
+      #     cmd: install
 
-      - name: Run tsc
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: tsc
-      - name: Run build
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build:backend --config ../../app-config.yaml 
+      # - name: Run tsc
+      #   uses: borales/actions-yarn@v4
+      #   with:
+      #     cmd: tsc
+      # - name: Run build
+      #   uses: borales/actions-yarn@v4
+      #   with:
+      #     cmd: build:backend --config ../../app-config.yaml 
 
 
       # do semver
@@ -70,12 +70,21 @@ jobs:
         with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }} 
-      - name: Set env
-        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)" >> $GITHUB_ENV
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-            context: .
-            file: packages/backend/Dockerfile
-            push: true
-            tags: lazno/backstage:${{ steps.taggerFinal.outputs.new_tag }}
+
+      - name: echo new tag
+        run: |
+          echo "The next tag version will be: ${{ steps.taggerFinal.outputs.new_tag }}"
+      - name: echo tag
+        run: |
+          echo "The current tag is: ${{ steps.taggerFinal.outputs.tag }}"
+      - name: echo part
+        run: |
+          echo "The version increment was: ${{ steps.taggerFinal.outputs.part }}"
+      
+      # - name: Build and push
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #       context: .
+      #       file: packages/backend/Dockerfile
+      #       push: true
+      #       tags: lazno/backstage:${{ steps.taggerFinal.outputs.new_tag }}
