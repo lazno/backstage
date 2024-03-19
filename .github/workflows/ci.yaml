@@ -13,26 +13,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
-
-      # prepare semver
-      - name: Minor version for each merge
-        id: taggerDryRun
-        uses: anothrNick/github-tag-action@1.36.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DRY_RUN: true
-      - name: echo new tag
-        run: |
-          echo "The next tag version will be: ${{ steps.taggerDryRun.outputs.new_tag }}"
-      - name: echo tag
-        run: |
-          echo "The current tag is: ${{ steps.taggerDryRun.outputs.tag }}"
-      - name: echo part
-        run: |
-          echo "The version increment was: ${{ steps.taggerDryRun.outputs.part }}"
-
-
+      
       # build    
       - name: Set Node.js 18.x
         uses: actions/setup-node@v3
@@ -53,7 +34,6 @@ jobs:
         with:
           cmd: build:backend --config ../../app-config.yaml 
 
-
       # do semver
       - name: Minor version for each merge
         id: taggerFinal
@@ -72,17 +52,6 @@ jobs:
         with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }} 
-
-      - name: echo new tag
-        run: |
-          echo "The next tag version will be: ${{ steps.taggerFinal.outputs.new_tag }}"
-      - name: echo tag
-        run: |
-          echo "The current tag is: ${{ steps.taggerFinal.outputs.tag }}"
-      - name: echo part
-        run: |
-          echo "The version increment was: ${{ steps.taggerFinal.outputs.part }}"
-      
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
